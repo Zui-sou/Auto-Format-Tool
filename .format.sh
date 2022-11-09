@@ -2,14 +2,20 @@ lsblk
 
 sleep .2
 
-echo "Path for the wanted drive"
+echo "Path of the desired drive"
 
-read pathToDrive
+read drive
 
-umount $pathToDrive'1' $pathToDrive'2' $pathToDrive '3'
+umount $drive?*
 
-echo 'd\nn\np\n1\n\n\nw' | fdisk $pathToDrive
+wipefs --all $drive
 
 sleep .05
 
-mkfs.exfat $pathToDrive'1'
+echo -e 'o\nw' | fdisk $drive
+
+echo -e 'n\np\n1\n\n\nw' | fdisk $drive
+
+sleep .05
+
+mkfs.exfat $drive'1'
